@@ -1,5 +1,6 @@
 const fs = require('fs'); // fs stands for file system;
 const http = require('http')
+const url = require('url');
 
 
 //==========> FILE SYSTEM
@@ -27,10 +28,37 @@ console.log("Welcome to the Node Concept!");
 */
 //==========> SERVER
 
+const data = fs.readFileSync(`./dev-data/data.json`, 'utf-8');
+const dataObj = JSON.parse(data);
+
+
+
 //===> create the server
 const server = http.createServer((req, res) => {
-    // console.log(req);
-    res.end('Hello From the Server!')
+    const pathName = req.url;
+
+
+    if (pathName === '/about') {
+        res.end("You're Now in about Route")
+    }
+
+    else if (pathName === '/' || pathName === '/home') {
+        res.end("You're Now in Home Route")
+    }
+
+    // Read file data from filesystem
+    else if (pathName === '/api') {
+        res.writeHead(200, { 'content-type': 'application/json' })
+        res.send(dataObj)
+    }
+
+
+    else {
+        res.writeHead(404, {
+            'content-type': 'text/html'
+        })
+        res.end("<h1>The page in not found!</h1>")
+    }
 })
 
 server.listen(5000, "127.0.0.1", () => {
