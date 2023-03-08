@@ -1,31 +1,48 @@
 const express = require('express');
 const fs = require('fs');
-
+const morgan = require('morgan');
 
 const app = express();
 const port = 5000;
 
-// Middleware
+// 1): MIDDLEWARE
 app.use(express.json());
 
 
-//==> Default end point
-// app.get('/', (req, res) => {
-//     res.status(200).json({
-//         success: true,
-//         message: 'Natours server Connected 🎉🎉'
-//     });
-// });
+// custom middleware
+// app.use((req, res, next) => {
+//     console.log("Hello, world!");
 
+//     next();
 
-// app.post('/', (req, res) => {
-//     res.send("You can post to this input");
 // })
 
 
-//===> Get All tours
+
+
+
+
+// 02): Data collections
 const tours = JSON.parse(fs.readFileSync(`${ __dirname }/dev-data/data/tours-simple.json`));
-app.get('/api/v1/tours', (req, res) => {
+
+
+
+// 03):ROUTES HANDLERS
+const defaultRoute = (req, res) => {
+    try {
+        res.status(200).json({
+            status: "success",
+            message: 'Natours server Connected 🎉🎉'
+        });
+    } catch (error) {
+        res.json({
+            status: "fail",
+            message: error.message
+        })
+    }
+}
+
+const getAllTours = (req, res) => {
     try {
         res.status(200).json({
             status: "success",
@@ -40,10 +57,10 @@ app.get('/api/v1/tours', (req, res) => {
             message: error.message
         })
     }
-})
 
-//===> Post new tour
-app.post('/api/v1/tours', (req, res) => {
+}
+
+const createTour = (req, res) => {
     try {
         const newId = tours[tours.length - 1].id + 1;
         const newTour = Object.assign({ id: newId }, req.body);
@@ -63,15 +80,9 @@ app.post('/api/v1/tours', (req, res) => {
             message: error.message
         })
     }
-})
+}
 
-// Get tour using tour ID
-// use this method to use more then 1 parameter ===> '/api/v1/tours/:id/:value/:number'
-// If we don't need multiple values, use ? them it will only take those values that user input.
-
-//====> '/api/v1/tours/:id/:value/:number?'
-
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
     try {
         const id = Number(req.params.id);
         const tour = tours.find(el => el.id === id);
@@ -97,10 +108,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
             message: error.message
         })
     }
-})
+}
 
-// Patch Request to update tour data
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
     try {
         const id = Number(req.params.id);
         const tour = tours.find(el => el.id === id);
@@ -123,10 +133,9 @@ app.patch('/api/v1/tours/:id', (req, res) => {
             message: error.message
         })
     }
-})
+}
 
-//====> Delete Tour
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
     try {
         const id = Number(req.params.id);
         // const tour = tours.find(el => el.id === id);
@@ -150,11 +159,43 @@ app.delete('/api/v1/tours/:id', (req, res) => {
             message: error.message
         })
     }
-})
+}
+
+
+// 04):ROUTES
+
+// ====> All specified endpoints
+/*
+
+app.get('/', defaultRoute);
+app.get('/api/v1/tours', getAllTours)
+app.get('/api/v1/tours/:id', getTour)
+app.post('/api/v1/tours', createTour)
+app.patch('/api/v1/tours/:id', updateTour)
+app.delete('/api/v1/tours/:id', deleteTour)
+
+*/
+
+// set route: in future we can change this easily
+app.route('/').get(defaultRoute);
+app.route('/api/v1/tours').get(getAllTours).post(createTour)
+app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
 
 
 
-
+// 05): START THE SERVER
 app.listen(port, () => {
     console.log(`Natours server running on Port: ${ port }`);
 });
+
+
+
+/*
+IMPORTANT:
+--------->
+'/api/v1/tours/:id/:value/:number?'
+use this method to use more then 1 parameter ===> '/api/v1/tours/:id/:value/:number'. If we don't need multiple values, use ? them it will only take those values that user input.
+
+
+
+*/
