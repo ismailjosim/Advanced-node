@@ -83,7 +83,6 @@ app.get('/api/v1/tours/:id', (req, res) => {
                 message: "Tour not found"
             })
         } else {
-
             res.status(200).json({
                 status: "success",
                 data: {
@@ -92,17 +91,66 @@ app.get('/api/v1/tours/:id', (req, res) => {
             })
         }
 
-
     } catch (error) {
-        res.json({
+        res.status(404).json({
             status: "fail",
             message: error.message
         })
     }
 })
 
+// Patch Request to update tour data
+app.patch('/api/v1/tours/:id', (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        const tour = tours.find(el => el.id === id);
+
+        if (id > tours.length) { // check via tour is found or not
+            return res.status(404).json({
+                status: "fail!",
+                message: "Tour not found"
+            })
+        }
+        res.status(200).json({
+            status: "success",
+            data: {
+                tour: "data updated!"
+            }
+        })
+    } catch (error) {
+        res.status(404).json({
+            status: "fail",
+            message: error.message
+        })
+    }
+})
+
+//====> Delete Tour
+app.delete('/api/v1/tours/:id', (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        // const tour = tours.find(el => el.id === id);
+
+        if (id > tours.length) { // check via tour is found or not
+            return res.status(404).json({
+                status: "fail!",
+                message: "Tour not found"
+            })
+        }
+
+        res.status(204).json({
+            status: "success",
+            data: null
+        })
 
 
+    } catch (error) {
+        res.status(404).json({
+            status: "fail",
+            message: error.message
+        })
+    }
+})
 
 
 
