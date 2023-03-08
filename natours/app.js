@@ -7,6 +7,7 @@ const port = 5000;
 
 // 1): MIDDLEWARE
 app.use(express.json());
+app.use(morgan('dev'));
 
 
 // custom middleware
@@ -24,6 +25,7 @@ app.use(express.json());
 
 // 02): Data collections
 const tours = JSON.parse(fs.readFileSync(`${ __dirname }/dev-data/data/tours-simple.json`));
+const users = JSON.parse(fs.readFileSync(`${ __dirname }/dev-data/data/users.json`));
 
 
 
@@ -161,6 +163,74 @@ const deleteTour = (req, res) => {
     }
 }
 
+const getAllUsers = (req, res) => {
+    try {
+        res.status(200).json({
+            status: "success",
+            results: users.length,
+            data: {
+                users: users
+            }
+        })
+    } catch (error) {
+        res.json({
+            status: "fail",
+            message: error.message
+        })
+    }
+}
+
+const createUser = (req, res) => {
+    try {
+        const newId = users[users.length - 1].id + 1;
+        const newUser = Object.assign({ id: newId }, req.body);
+        users.push(newUser);
+        fs.writeFile(`${ __dirname }/dev-data/data/users.json`, JSON.stringify(users), err => {
+            res.status(201).json({
+                status: "success",
+                data: {
+                    user: newUser
+                }
+            })
+        });
+    } catch (error) {
+        res.json({
+            status: "fail",
+            message: error.message
+        })
+    }
+
+
+
+
+}
+
+const getSingleUser = (req, res) => {
+    try {
+
+    } catch (error) {
+
+    }
+
+}
+
+const updateUser = (req, res) => {
+    try {
+
+    } catch (error) {
+
+    }
+
+}
+
+const deleteUser = (req, res) => {
+    try {
+
+    } catch (error) {
+
+    }
+
+}
 
 // 04):ROUTES
 
@@ -178,9 +248,14 @@ app.delete('/api/v1/tours/:id', deleteTour)
 
 // set route: in future we can change this easily
 app.route('/').get(defaultRoute);
+
+// Tours routes
 app.route('/api/v1/tours').get(getAllTours).post(createTour)
 app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
 
+// Users routes
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+app.route('/api/v1/users/:id').get(getSingleUser).patch(updateUser).delete(deleteUser);
 
 
 // 05): START THE SERVER
