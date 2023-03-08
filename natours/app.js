@@ -65,6 +65,47 @@ app.post('/api/v1/tours', (req, res) => {
     }
 })
 
+// Get tour using tour ID
+// use this method to use more then 1 parameter ===> '/api/v1/tours/:id/:value/:number'
+// If we don't need multiple values, use ? them it will only take those values that user input.
+
+//====> '/api/v1/tours/:id/:value/:number?'
+
+app.get('/api/v1/tours/:id', (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        const tour = tours.find(el => el.id === id);
+
+        // if (id > tours.length) { // check via tour length
+        if (!tour) { // check via tour is found or not
+            return res.status(404).json({
+                status: "fail!",
+                message: "Tour not found"
+            })
+        } else {
+
+            res.status(200).json({
+                status: "success",
+                data: {
+                    tour: tour
+                }
+            })
+        }
+
+
+    } catch (error) {
+        res.json({
+            status: "fail",
+            message: error.message
+        })
+    }
+})
+
+
+
+
+
+
 
 app.listen(port, () => {
     console.log(`Natours server running on Port: ${ port }`);
