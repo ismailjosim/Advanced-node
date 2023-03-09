@@ -8,7 +8,7 @@ const reviewsRouter = require('./routes/reviewRoutes');
 
 
 const app = express();
-const port = 5000;
+
 
 // 1): MIDDLEWARE
 app.use(express.json());
@@ -21,6 +21,4 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/reviews', reviewsRouter);
 
 
-app.listen(port, () => {
-    console.log(`Natours server running on Port: ${ port }`);
-});
+module.exports = app;
