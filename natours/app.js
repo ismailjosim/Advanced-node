@@ -269,8 +269,7 @@ app.listen(port, () => {
 IMPORTANT:
 --------->
 '/api/v1/tours/:id/:value/:number?'
+
 use this method to use more then 1 parameter ===> '/api/v1/tours/:id/:value/:number'. If we don't need multiple values, use ? them it will only take those values that user input.
-
-
 
 */
