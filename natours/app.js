@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 
+
 // ROUTES
 const toursRouter = require('./routes/tourRoutes');
 const usersRouter = require('./routes/userRoutes');
@@ -14,6 +15,10 @@ app.use(express.json());
 if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'));
 }
+
+
+
+
 
 // to use files from filesystem: use the following middleware
 app.use(express.static(`${ __dirname }/public`));
