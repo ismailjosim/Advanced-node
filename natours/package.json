@@ -4,13 +4,17 @@
   "description": "complete node project",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server",
+    "dev": "nodemon server"
   },
   "author": "ISMAIL",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.4.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "mongodb": "^5.1.0",
+    "mongoose": "^7.0.1",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
