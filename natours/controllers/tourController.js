@@ -5,11 +5,6 @@ const Tour = require('./../models/tourModel');
 //     fs.readFileSync(`${ __dirname }/../dev-data/data/tours-simple.json`)
 // );
 
-
-
-
-
-
 //==> Check if ID is valid or not
 // exports.checkID = (req, res, next, val) => {
 //     if (req.params.id * 1 > tours.length) {
@@ -32,6 +27,14 @@ const Tour = require('./../models/tourModel');
 //     next();
 // };
 
+// TODO: handle error response
+const handleError = (res, error) => {
+    res.status(500).json({
+        status: 'fail',
+        message: error.message
+    });
+}
+
 
 //====> 03) All functions
 exports.getAllTours = async (req, res) => {
@@ -45,10 +48,7 @@ exports.getAllTours = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(404).json({
-            status: 'fail',
-            message: error.message
-        });
+        handleError(res, error);
     }
 };
 
@@ -68,10 +68,7 @@ exports.createTour = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: error.message
-        });
+        handleError(res, error);
     }
 };
 
@@ -86,10 +83,7 @@ exports.getTour = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(404).json({
-            status: 'fail',
-            message: error.message
-        });
+        handleError(res, error);
     }
 };
 
@@ -104,10 +98,7 @@ exports.updateTour = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(404).json({
-            status: 'fail',
-            message: error.message
-        });
+        handleError(res, error);
     }
 };
 
@@ -120,9 +111,6 @@ exports.deleteTour = async (req, res) => {
             message: "data deleted successfully",
         });
     } catch (error) {
-        res.status(404).json({
-            status: 'fail',
-            message: error.message
-        });
+        handleError(res, error);
     }
 };
