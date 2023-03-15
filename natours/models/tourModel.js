@@ -7,7 +7,7 @@ const tourSchema = new mongoose.Schema({
         type: String,
         required: [true, "A tour must be specified"],
         unique: true,
-        trim: true // TODO: trip: Remove all the white-space at the beginning and the ending of a string value. i.e: /              hello         / output: hello
+        trim: true
     },
     duration: {
         type: Number,

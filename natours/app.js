@@ -17,9 +17,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 
-
-
-
 // to use files from filesystem: use the following middleware
 app.use(express.static(`${ __dirname }/public`));
 

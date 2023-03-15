@@ -1,32 +1,5 @@
 const Tour = require('./../models/tourModel');
 
-//====> 02) All Required files
-// const tours = JSON.parse(
-//     fs.readFileSync(`${ __dirname }/../dev-data/data/tours-simple.json`)
-// );
-
-//==> Check if ID is valid or not
-// exports.checkID = (req, res, next, val) => {
-//     if (req.params.id * 1 > tours.length) {
-//         return res.status(404).json({
-//             status: 'fail!',
-//             message: 'Invalid ID'
-//         });
-//     }
-//     next();
-// };
-
-//==> Check the body contents name and price properties
-// exports.checkBody = (req, res, next) => {
-//     if (!req.body.name || !req.body.price) {
-//         return res.status(400).json({
-//             status: 'fail!',
-//             message: 'Please provide name and price'
-//         });
-//     }
-//     next();
-// };
-
 // TODO: handle error response
 const handleError = (res, error) => {
     res.status(500).json({
@@ -39,7 +12,17 @@ const handleError = (res, error) => {
 //====> 03) All functions
 exports.getAllTours = async (req, res) => {
     try {
-        const tours = await Tour.find(); // TODO: Get all tours use find in mongoose.
+        const queryObj = { ...req.query }
+        const excludedFields = ['page', 'sort', 'limit', 'fields'];
+        excludedFields.forEach(el => delete queryObj[el]);
+        console.log(req.query, queryObj);
+
+        // TODO: 1ST WAY
+        const tours = await Tour.find(req.query);
+
+        // TODO: 2ND WAY
+        // const tours = await Tour.find().where('duration').equals(5).where('difficulty').equals('easy')
+
         res.status(200).json({
             status: 'success',
             results: tours.length,
