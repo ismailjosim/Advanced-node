@@ -3,7 +3,10 @@ const tourController = require('../controllers/tourController');
 
 const router = express.Router();
 
-// router.param('id', tourController.checkID);
+//==> If we want to create some special routes of specific conditions
+router.route('/top-5-best').get(tourController.aliasTopTour, tourController.getAllTours)
+
+
 
 //==> All routes
 router

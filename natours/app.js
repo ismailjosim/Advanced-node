@@ -17,6 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 
+
 // to use files from filesystem: use the following middleware
 app.use(express.static(`${ __dirname }/public`));
 
@@ -24,5 +25,6 @@ app.use(express.static(`${ __dirname }/public`));
 app.use('/api/v1/tours', toursRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/reviews', reviewsRouter);
+
 
 module.exports = app;
