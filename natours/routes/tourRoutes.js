@@ -5,6 +5,8 @@ const router = express.Router();
 
 //==> If we want to create some special routes of specific conditions
 router.route('/top-5-best').get(tourController.aliasTopTour, tourController.getAllTours)
+router.route('/tour-stats').get(tourController.getTourStats)
+router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan)
 
 
 

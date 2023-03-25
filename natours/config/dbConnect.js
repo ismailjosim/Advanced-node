@@ -7,7 +7,7 @@ const MONGODB_URL = `mongodb+srv://${ process.env.DB_USER }:${ process.env.DB_PA
 // const MONGODB_URL = process.env.LOCAL_DATABASE;
 
 
-
+// database connection
 const dbConnect = async () => {
     try {
         const connect = await mongoose.connect(MONGODB_URL);
