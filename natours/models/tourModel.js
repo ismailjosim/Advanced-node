@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 
 // Tour Schema
@@ -9,6 +10,7 @@ const tourSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    slug: String,
     duration: {
         type: Number,
         required: [true, "A tour must have a duration"]
@@ -54,7 +56,11 @@ const tourSchema = new mongoose.Schema({
         default: Date.now(),
         select: false // this will hide the createdAt when user get the data.
     },
-    startDates: [Date]
+    startDates: [Date],
+    secretTour: {
+        type: Boolean,
+        default: false
+    },
 
 },
     {
@@ -71,6 +77,32 @@ const tourSchema = new mongoose.Schema({
 tourSchema.virtual('durationWeeks').get(function () { // here we need to use regular functions because the arrow function doesn't work have the 'this' property.
     return this.duration / 7;
 })
+
+// todo: DOCUMENT MIDDLEWARE:
+tourSchema.pre('save', function (next) {
+    this.slug = slugify(this.name, { lower: true })
+    next()
+
+})
+// section: Pre Methods
+// tourSchema.pre('save', function (next) {
+//     console.log('will save document...');
+//     next();
+// })
+
+// section: post Methods
+// tourSchema.post('create', function (next) {
+//     console.log(doc);
+//     next()
+// })
+
+// todo: QUERY MIDDLEWARE:
+tourSchema.pre('find', function (next) {
+    this.find({ secretTour: { $ne: true } })
+    next();
+})
+
+
 
 const Tour = mongoose.model('Tour', tourSchema);
 
