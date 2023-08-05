@@ -3,7 +3,7 @@ const slugify = require('slugify');
 const validator = require('validator');
 
 
-// Tour Schema (স্কিমা)
+// Tour Schema
 const tourSchema = new mongoose.Schema({
     name: {
         type: String,
