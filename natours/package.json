@@ -1,23 +1,26 @@
 {
-  "name": "natours",
-  "version": "1.0.0",
-  "description": "complete node project",
-  "main": "app.js",
-  "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
-  },
-  "author": "ISMAIL",
-  "license": "ISC",
-  "dependencies": {
-    "colors": "^1.4.0",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "mongodb": "^5.1.0",
-    "mongoose": "^7.0.1",
-    "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.21"
-  }
+	"name": "natours",
+	"version": "1.0.0",
+	"description": "complete node project",
+	"main": "app.js",
+	"scripts": {
+		"start": "node server",
+		"dev": "nodemon server",
+		"debug": "ndb server.js"
+	},
+	"author": "ISMAIL",
+	"license": "ISC",
+	"dependencies": {
+		"colors": "^1.4.0",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"mongodb": "^5.1.0",
+		"mongoose": "^7.0.1",
+		"morgan": "^1.10.0",
+		"slugify": "^1.6.6",
+		"validator": "^13.9.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.21"
+	}
 }
